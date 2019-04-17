@@ -79,11 +79,11 @@ public class ClienteDAO {
     }
 
     //Responsável pela consulta de um cliente.
-    public void Consultar(int id) {
+    public List<Cliente> Consultar() {
         try (Connection conn = DriverManager.getConnection("jdbc:derby:memory:database;create=true")) {
-
-            log.info("Consultar um cliente");
-            String sql = "SELECT * FROM cliente WHERE id=?";
+            List<Cliente> clientes = new ArrayList<>;
+            log.info("Consultar tabela cliente");
+            String sql = "SELECT * FROM cliente";
 
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(cliente.id)
@@ -93,12 +93,16 @@ public class ClienteDAO {
             int count = 0;
 
             while (result.next()) {
-                String nome = result.getString("nome");
-                String telefone = result.getString("telefone");
-                int idade = result.getInt("idade");
-                double limiteCredito = result.getDouble("limiteCredito");
-                int id_pais = result.getInt("id_pais");
+                Cliente cliente = new Cliente();
+                cliente.nome = result.getString("nome");
+                cliente.telefone = result.getString("telefone");
+                cliente.idade = result.getInt("idade");
+                cliente.limiteCredito = result.getDouble("limiteCredito");
+                cliente.id_pais = result.getInt("id_pais");
+                clientes[count] = cliente;
+                count++;
             }
+            return clientes;
 
         } catch (Exception e) {
             e.printStackTrace();
