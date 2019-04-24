@@ -2,6 +2,7 @@ package br.edu.utfpr.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 import br.edu.utfpr.dto.ClienteDTO;
 import lombok.extern.java.Log;
@@ -29,7 +30,7 @@ public class ClienteDAO {
         }
     }
     // Responsável pela inserção de cliente.
-    public void Inserir(Cliente cliente) {
+    public void Inserir(ClienteDTO cliente) {
 
         try (Connection conn = DriverManager.getConnection("jdbc:derby:memory:database;create=true")) {
 
@@ -54,14 +55,14 @@ public class ClienteDAO {
         }
     }
     //Responsável pela alteração do cliente.
-    public void Alterar(Cliente cliente) {
+    public void Alterar(ClienteDTO cliente) {
         try (Connection conn = DriverManager.getConnection("jdbc:derby:memory:database;create=true")) {
 
             log.info("Alterar um cliente");
             String sql = "UPDATE cliente SET nome=?, telefone=?, idade=?, limiteCredito=?, id_pais=? WHERE id=?";
 
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(client.id);
+            statement.setInt(cliente.);
             statement.setString(cliente.nome);
             statement.setString(cliente.telefone);
             statement.setInt(cliente.idade);
@@ -109,7 +110,7 @@ public class ClienteDAO {
         }
     }
     //Responsável por deletar um cliente.
-    public void Deletar() {
+    public void Deletar(ClienteDTO cliente) {
         try (Connection conn = DriverManager.getConnection("jdbc:derby:memory:database;create=true")) {
 
             log.info("Deletar um cliente");
